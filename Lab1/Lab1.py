@@ -22,7 +22,7 @@ def main():
         # calls the according function based on user input
         match whichTask:
             case 0:
-                print(taskOneA(inputArr))
+                taskOneA(inputArr, False)
 
             case 1:
                 print(taskOneB(inputArr))
@@ -32,7 +32,7 @@ def main():
 
 
 # implements insertion sort with a second "sorted array"
-def taskOneA(inputArr):
+def taskOneA(inputArr, isExperiment):
 
     # holds the sorted array
     sortedArr = []
@@ -52,8 +52,9 @@ def taskOneA(inputArr):
         else:
             sortedArr.append(key)
 
-        # shows sorted array after each iteration
-        print(sortedArr)
+        # shows sorted array after each iteration if its not the experiment 
+        if (isExperiment == False):
+            print(sortedArr)
 
     return sortedArr
 
@@ -61,10 +62,13 @@ def taskOneA(inputArr):
 # implements insertion sort by shifting values in the input array
 def taskOneB(inputArr):
 
+    # itterates through the sorted index
     for sortedIndex in range(1, len(inputArr)):
+        # gets the key and sets the sorted array index (j)
         key = inputArr[sortedIndex]
         j = sortedIndex - 1
 
+        # itterates through the sorted portion of the array until the key is greater than the value at inputArr[j]
         while j >= 0 and inputArr[j] > key:
             inputArr[j + 1] = inputArr[j]
             j -= 1
@@ -136,7 +140,7 @@ arr = [random.randint(0, 10**6) for _ in range(N)]
 # 2. Time Insertion Sort
 arr_copy = arr[:]
 start = time.perf_counter()
-output = taskOneA(arr_copy)
+output = taskOneA(arr_copy, True)
 t_insertion = time.perf_counter() - start
 print(f"Insertion Sort time: {t_insertion:.6f} sec")
 # 3. Time Merge Sort
