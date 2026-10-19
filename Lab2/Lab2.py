@@ -84,7 +84,7 @@ def inPlacePartition(inputArray):
     # returns the array and the pivot index 
     return inputArray, i - 1
 
-# implements the recursive quicksort algorithm 
+# implements the recursive quicksort algorithm s
 def quickSort(inputArray):
 
     # this is the base case where there is one or fewer elements 
