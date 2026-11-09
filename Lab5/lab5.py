@@ -82,16 +82,71 @@ class BinarySearchTree:
     # --- Question 2: Insertion and Search ---
     def insert(self, value):
         """Insert a value into the BST."""
-        pass
+        new_node = Node(value)
+        if self.root is None:
+            self.root = new_node
+            return
+
+        current = self.root
+        while True:
+            # Smaller values belong on the left; larger values belong on the right.
+            if value < current.value:
+                if current.left is None:
+                    current.left = new_node
+                    return
+                current = current.left
+            elif value > current.value:
+                if current.right is None:
+                    current.right = new_node
+                    return
+                current = current.right
+            else:
+                # Ignore duplicates so values remain strictly ordered.
+                return
 
     def search(self, value):
         """Search for a value in the BST."""
-        pass
+        current = self.root
+        while current is not None:
+            if value == current.value:
+                return True
+            # BST ordering lets the search skip the subtree that cannot contain the value.
+            current = current.left if value < current.value else current.right
+        return False
 
     # --- Question 3: Deletion and Search ---
     def delete(self, value):
         """Delete a value from the BST while preserving the BST property."""
-        pass
+        parent = None
+        current = self.root
+
+        # Find the node and keep its parent so the tree can be reconnected after deletion.
+        while current is not None and current.value != value:
+            parent = current
+            current = current.left if value < current.value else current.right
+
+        if current is None:
+            return
+
+        if current.left is not None and current.right is not None:
+            # Replace a two-child node with the smallest value in its right subtree.
+            successor_parent = current
+            successor = current.right
+            while successor.left is not None:
+                successor_parent = successor
+                successor = successor.left
+            current.value = successor.value
+            parent = successor_parent
+            current = successor
+
+        # A node with at most one child can be replaced directly by that child.
+        child = current.left if current.left is not None else current.right
+        if parent is None:
+            self.root = child
+        elif parent.left is current:
+            parent.left = child
+        else:
+            parent.right = child
 
     # --- Validation Method ---
     def is_valid_bst(self):
